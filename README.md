@@ -328,7 +328,7 @@ The `Initialize` context struct will look like this:
 ```rust
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = user, space = 64 + 64)]
+    #[account(init, payer = user, space = 64 + 1024)]
     pub base_account: Account<'info, BaseAccount>,
     #[account(mut)]
     pub user: Signer<'info>,
@@ -336,7 +336,9 @@ pub struct Initialize<'info> {
 }
 ```
 
-The macro `#[account(init, payer = user, space = 64 + 64)]` basically means that we want to **`init`**ialize the following account (`base_account`), the fee will be paid by `user` below, and we’ll allocate 64KB + 64KB space for it. We need a bigger space because of the vector.
+The macro `#[account(init, payer = user, space = 64 + 1024)]` basically means that we want to **`init`**-ialize the following account (`base_account`), the fee will be paid by `user` below, and we’ll allocate 64B + 1024B space for it. The space allocated will limit how much gm’s your program can store.
+
+
 
 The macro `#[account(mut)]` means that the `user` here will be mutated, because it will be paying fees. This `user` field represents the signer of the transaction, aka. the wallet that called this function.
 
@@ -405,7 +407,7 @@ pub mod gm_solana {
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = user, space = 64 + 64)]
+    #[account(init, payer = user, space = 64 + 1024)]
     pub base_account: Account<'info, BaseAccount>,
     #[account(mut)]
     pub user: Signer<'info>,
