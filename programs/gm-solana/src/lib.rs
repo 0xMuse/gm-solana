@@ -39,7 +39,7 @@ pub mod gm_solana {
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = user, space = 64 + 64)]
+    #[account(init, payer = user, space = 64 + 1024)]
     pub base_account: Account<'info, BaseAccount>,
     #[account(mut)]
     pub user: Signer<'info>,
